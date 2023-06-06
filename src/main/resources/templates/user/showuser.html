@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+          crossorigin="anonymous">
+    <link th:href="@{/css/main.css}" rel="stylesheet"/>
+    <title>CRUD application</title>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <p class="text-light mb-0">
+        <span class="font-weight-bold" th:remove="tag" sec:authentication="name">Name</span>
+        <span>with roles: </span>
+        <span th:each="role: ${userSessionInfo.getRoles()}">
+                <span th:text="${role}"></span>
+        </span>
+    </p>
+    <div class="ml-auto">
+        <ul class="nav navbar-nav">
+            <li>
+                <a class="nav-link" th:href="@{/logout}"> Logout</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<div id="main-container" class="container-fluid">
+    <div class="row">
+        <div class="sidebar col-sm-3 col-md-2 d-none d-sm-block">
+            <ul class="nav flex-column">
+                <li class="py-1" th:if="${#lists.contains(userSessionInfo.getRoles(), 'ADMIN')}">
+                    <a href="/admin">Admin</a>
+                </li>
+                <li class="active py-1" th:if="${#lists.contains(userSessionInfo.getRoles(), 'USER')}">
+                    <a href="/user">User</a>
+                </li>
+            </ul>
+        </div>
+        <div id="main-content-container" class="col-sm-9 col-md-10">
+            <div class="row row-cols-12 justify-content-center mt-1 mx-auto">
+                <div class="col">
+                    <div class="my-3"><h2>User information-page</h2></div>
+
+                    <div class="tab-content">
+                        <div id="aboutUser" class="tab-pane border border-top-0 active">
+                            <h5 class="pt-3 mb-3 pl-4 pb-3 bg-light borderline">About user</h5>
+                            <div class="ml-4 mr-4">
+                                <table class="table table-striped">
+                                    <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>First name</th>
+                                        <th>Last name</th>
+                                        <th>Age</th>
+                                        <th>Email</th>
+                                        <th>Role</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td th:text="${user.getId()}"></td>
+                                        <td th:text="${user.getFirstName()}"></td>
+                                        <td th:text="${user.getSurname()}"></td>
+                                        <td th:text="${user.getAge()}"></td>
+                                        <td th:text="${user.getName()}"></td>
+                                        <td>
+                                                <span th:each="role : ${user.getRoles()}">
+                                                    <span th:text="${role.getName()}"></span>
+                                                </span>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+                <!-- Main Content will go here -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
+</body>
+</html>
